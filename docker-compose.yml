@@ -2,17 +2,22 @@ version: '2'
  
 services:
   app:
+    restart: always
     build:
       context:  ./app
       dockerfile: Dockerfile
     expose:
       - "8080"
- 
+    volumes:
+      - /usr/src/app
   proxy:
+    restart: always
     build:
       context:  ./nginx
       dockerfile: Dockerfile
     ports:
       - "80:80"
     links:
+      - app
+    volumes_from:
       - app
